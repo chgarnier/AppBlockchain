@@ -31,7 +31,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"strconv"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	sc "github.com/hyperledger/fabric/protos/peer"
@@ -76,6 +75,10 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.changeMedOwner(APIstub, args)
 	} else if function == "queryAllMeds" {
 		return s.queryAllMeds(APIstub)
+	} else if function == "deleteMedByDataMatrix" {
+		return s.deleteMedByDataMatrix(APIstub, args)
+	} else if function == "queryMedHistoryByDatamatrix" {
+		return s.queryMedHistoryByDatamatrix(APIstub, args)
 	}
 
 	return shim.Error("Invalid Smart Contract function name.")
@@ -226,6 +229,7 @@ func (s *SmartContract) queryMedHistoryByDatamatrix(APIstub shim.ChaincodeStubIn
 
 	// buffer is a JSON array containing QueryResults
 	var buffer bytes.Buffer
+	var record string
 	buffer.WriteString("[")
 
 	bArrayMemberAlreadyWritten := false
@@ -242,15 +246,12 @@ func (s *SmartContract) queryMedHistoryByDatamatrix(APIstub shim.ChaincodeStubIn
 		buffer.WriteString("\"")
 		buffer.WriteString(queryResponse.TxId)
 		buffer.WriteString("\"")
-
-		buffer.WriteString("{\"IsDelete\":")
-		buffer.WriteString("\"")
-		buffer.WriteString(strconv.FormatBool(queryResponse.IsDelete))
-		buffer.WriteString("\"")
-
+		record = string(queryResponse.Value)
+		if queryResponse.IsDelete == true {
+			record = "{\"DataMatrix\":\"delete\", \"Designation\":\"delete\", \"Laboratory\":\"delete\", \"Owner\":\"delete\"}"
+		}
 		buffer.WriteString(", \"Record\":")
-		// Record is a JSON object, so we write as-is
-		buffer.WriteString(string(queryResponse.Value))
+		buffer.WriteString(record)
 		buffer.WriteString("}")
 		bArrayMemberAlreadyWritten = true
 	}
