@@ -4,27 +4,33 @@
 			"name": "peerOrg1",
 			"mspid": "Org1MSP",
 			"peer1": {
-				"requests": "grpc://peer0.org1.example.com:7051",
-				"events": "grpc://peer0.org1.example.com:7053",
+				"requests": "grpcs://peer0.org1.example.com:7051",
+				"events": "grpcs://peer0.org1.example.com:7053",
 				"server-hostname": "peer0.org1.example.com",
-				"tls_cacerts": "/first-network/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
-			},
+                                "tls_cacerts": "./first-network/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+            			},
 			"admin": {
-				"key": "/first-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore",
-				"cert": "/first-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts"
+				"key": "./first-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore",
+				"cert": "./first-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts"
 			}
 		}
 	},
-	"host": "explorer",
+	"host": "localhost",
 	"port": "8080",
 	"channel": "mychannel",
-	"keyValueStore": "/tmp/fabric-client-kvs",
 	"eventWaitTime": "30000",
-	"mysql": {
-		"host": "mysql",
-		"port": "3306",
+	"users":[
+		{
+		   "username":"admin",
+		   "secret":"adminpw"
+		}
+	],
+	"pg": {
+		"host": "postgre",
+		"port": "5432",
 		"database": "fabricexplorer",
-		"username": "root",
-		"passwd": "root"
-	}
+		"username": "hppoc",
+		"passwd": "password"
+	},	
+	"license": "Apache-2.0"
 }
