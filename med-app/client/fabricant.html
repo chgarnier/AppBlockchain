@@ -123,9 +123,9 @@
         <li class="active"><a href="index.html"> Home </a></li>
         <li><a href="regulateur.html"> Régulateur </a></li>
         <li><a href="fabricant.html"> Fabricant </a></li>
-        <li><a href="Equipe.html"> Distributeur </a></li>
+        <li><a href="distributeur.html"> Distributeur </a></li>
         <li><a href="patient.html"> Patient </a></li>
-        <li><a href="http://localhost:8080/"> Etat du réseau </a></li>
+        <li><a href="http://localhost:8150/"> Etat du réseau </a></li>
       </ul>
     </div> 
     
@@ -174,32 +174,6 @@
           <td>{{query_med.designation}}</td>
           <td>{{query_med.laboratory}}</td>
           <td>{{query_med.owner}}</td>
-        </tr>
-      </table>
-
-      <div class="form-group">
-        <label>History of a specific drug based on its datamatrix</label><br>
-        <h5 style="color:red;margin-bottom:2%" id="error_query">Error: Please enter a valid Datamatrix </h5>
-        Enter a valid Datamatrix in th form of 010XXXXXXXXXXXXX17XXXXXX10XXXXX : <input id="createName" class="form-control" type="text" placeholder="Ex: 01034009216036371718052510P7897" ng-model="med_history_id">
-        <input id="querySubmit" type="submit" value="Get History" class="btn btn-primary" ng-click="getMedHistory()">
-      </div>
-
-      <table id="query_med_history" class="table" align="center">
-
-        <tr>
-          <th>TxId</th>
-          <th>DataMatrix</th>                  
-          <th>Designation</th>
-          <th>Laboratory</th>
-          <th>Owner </th>
-        </tr>
-
-        <tr ng-repeat="med in query_med_history">
-          <td>{{med.TxId}}</td>
-          <td>{{med.dataMatrix}}</td>                 
-          <td>{{med.designation}}</td>
-          <td>{{med.laboratory}}</td>
-          <td>{{med.owner}}</td>
         </tr>
       </table>
      

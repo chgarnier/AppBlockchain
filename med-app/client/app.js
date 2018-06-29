@@ -31,6 +31,20 @@ app.controller('appController', function($scope, appFactory){
 		});
 	}
 
+	$scope.getMedHistory = function(){
+		var id_history = $scope.med_history_id;
+		
+		appFactory.getMedHistory(id_history, function(data){
+			var array = [];
+			for (var i = 0; i < data.length; i++){
+				data[i].Record.TxId = data[i].TxId;
+				array.push(data[i].Record);
+			}
+
+			$scope.query_med_history = array;
+		});
+	}
+
 	$scope.queryMed = function(){
 
 		var id = $scope.med_id;
@@ -102,6 +116,15 @@ app.factory('appFactory', function($http){
 			callback(output)
 		});
 	}
+
+
+    factory.getMedHistory = function(id_history, callback){
+
+    	$http.get('/get_med_history/'+id_history).success(function(output){
+			callback(output)
+		});
+	}
+
 
 	factory.queryMed = function(id, callback){
     	$http.get('/get_med/'+id).success(function(output){

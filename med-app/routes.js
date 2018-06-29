@@ -19,5 +19,8 @@ module.exports = function(app){
   app.get('/delete_med/:id_del', function(req, res){
     med.delete_med(req, res);
   })
+  app.get('/get_med_history/:id_history', function(req, res){
+    med.get_med_history(req, res);
+  })
 
 }

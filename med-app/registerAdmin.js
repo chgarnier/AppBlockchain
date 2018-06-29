@@ -11,7 +11,7 @@ This code is based on code written by the Hyperledger Fabric community.
 
 var Fabric_Client = require('fabric-client');
 var Fabric_CA_Client = require('fabric-ca-client');
-
+var fs = require('fs');
 var path = require('path');
 var util = require('util');
 var os = require('os');
@@ -23,8 +23,13 @@ var admin_user = null;
 var member_user = null;
 var store_path = path.join(os.homedir(), '.hfc-key-store');
 console.log(' Store path:'+store_path);
-
+var caRootsPath = "/media/cgarnier/DATA1/AppBlockchain/AppMed/fabric-material/basic-network/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem" 
+let data = fs.readFileSync(caRootsPath); 
+let caroots = Buffer.from(data).toString();
+console.log(caroots)
 // create the key value store as defined in the fabric-client/config/default.json 'key-value-store' setting
+
+
 Fabric_Client.newDefaultKeyValueStore({ path: store_path
 }).then((state_store) => {
     // assign the store to the fabric client
@@ -36,11 +41,11 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
     crypto_suite.setCryptoKeyStore(crypto_store);
     fabric_client.setCryptoSuite(crypto_suite);
     var	tlsOptions = {
-    	trustedRoots: [],
+    	trustedRoots: caroots,
     	verify: false
     };
     // be sure to change the http to https when the CA is running TLS enabled
-    fabric_ca_client = new Fabric_CA_Client('http://localhost:7054', tlsOptions , 'ca.example.com', crypto_suite);
+    fabric_ca_client = new Fabric_CA_Client('https://localhost:7054', tlsOptions , 'ca.example.com', crypto_suite);
 
     // first check to see if the admin is already enrolled
     return fabric_client.getUserContext('admin', true);
